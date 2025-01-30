@@ -1,9 +1,17 @@
 import * as XLSX from 'xlsx'
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { AiOutlineUpload } from "react-icons/ai";
 
 export default function LecturerPage() {
     const [pengampu, setPengampu] = useState([])
+
+    // Fungsi untuk memuat data dari localStorage saat komponen pertama kali dimuat
+    useEffect(() => {
+        const savedPengampu = localStorage.getItem('pengampu');
+        if (savedPengampu) {
+            setPengampu(JSON.parse(savedPengampu));
+        }
+    }, []);
 
     function levenshteinDistance(a, b) {
         if (a.length === 0) return b.length;
@@ -129,7 +137,9 @@ export default function LecturerPage() {
                     delete item.Semester;
                 });
 
-                setPengampu(rowObject)
+                // Perbarui state pengampu dan simpan ke localStorage
+                setPengampu(rowObject);
+                localStorage.setItem('pengampu', JSON.stringify(rowObject));
 
                 // menampilkan semua data pada array pengampu dalam bentuk baris tabel
                 // const tabelDaftarPengampu = document.querySelector("tbody.daftar-pengampu");
