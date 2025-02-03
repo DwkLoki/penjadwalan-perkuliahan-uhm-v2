@@ -1,6 +1,6 @@
 import * as XLSX from 'xlsx'
 import { useState, useEffect } from 'react';
-import { AiOutlineUpload, AiOutlineEdit, AiOutlineDelete } from "react-icons/ai";
+import { AiOutlineUpload, AiOutlineEdit, AiOutlineDelete, AiOutlinePlus } from "react-icons/ai";
 import ModalBtn from '../components/ModalBtn';
 
 export default function LecturerPage() {
@@ -174,6 +174,22 @@ export default function LecturerPage() {
         }
     }
 
+    const handleTambahPengampu = (dataBaru) => {
+        setPengampu(prevPengampu => {
+            // Cari nilai pengampuId terbesar dari data yang ada
+            const maxId = Math.max(...prevPengampu.map(item => item.pengampuId), 0);
+
+            // Buat objek baru dengan pengampuId = maxId + 1
+            const pengampuBaru = {
+                ...dataBaru,
+                pengampuId: maxId + 1
+            }
+
+            // Tambahkan ke array pengampu
+            return [...prevPengampu, pengampuBaru];
+        });
+    }
+
     const handleEditBtnClick = (pengampuTerEdit) => {
         setPengampu(prevPengampu => {
             // membuat array baru yang tidak mengandung item yang telah diedit
@@ -192,8 +208,10 @@ export default function LecturerPage() {
         })
     }
 
-    const handleDeleteBtnClick = () => {
-        console.log('tombol delete terklik');
+    const handleDeleteBtnClick = (pengampuYangAkanDihapus) => {
+        setPengampu((prevPengampu) =>
+            prevPengampu.filter((pengampu) => pengampu.pengampuId !== pengampuYangAkanDihapus.pengampuId)
+        );
     }
 
     const dataTablePengampu = pengampu.map((objectPengampu, index) => {
@@ -213,7 +231,7 @@ export default function LecturerPage() {
                         <ModalBtn
                             icon={<AiOutlineDelete />}
                             color='danger'
-                            handleClick={handleDeleteBtnClick}
+                            handleDeleteDataTable={handleDeleteBtnClick}
                             data={objectPengampu}
                         />
                     </div>
@@ -226,21 +244,29 @@ export default function LecturerPage() {
 
     return (
         <div className='py-6'>
-            <div className="flex items-center my-4">
-                <input
-                    type="file"
-                    id="fileUpload"
-                    className="hidden"
-                    accept='.xlsx, .xls'
-                    onChange={handleImportFile}
-                />
-                <label
-                    htmlFor="fileUpload"
-                    className="flex items-center px-4 py-2 bg-sky-600 text-white rounded cursor-pointer hover:bg-sky-700"
-                >
-                    <AiOutlineUpload className="mr-2 text-xl" />
-                    Choose File
-                </label>
+            <div className='flex justify-between py-4'>
+                <div className="flex items-center">
+                    <input
+                        type="file"
+                        id="fileUpload"
+                        className="hidden"
+                        accept='.xlsx, .xls'
+                        onChange={handleImportFile}
+                    />
+                    <label
+                        htmlFor="fileUpload"
+                        className="flex items-center px-4 py-2 bg-sky-600 border-2 border-sky-600 text-white rounded cursor-pointer hover:bg-sky-700 hover:border-sky-700"
+                    >
+                        <AiOutlineUpload className="mr-2 text-xl" />
+                        Choose File
+                    </label>
+                </div>
+                <div>
+                    <ModalBtn
+                        icon={<AiOutlinePlus />}
+                        handleTambahPengampu={handleTambahPengampu}
+                    />
+                </div>
             </div>
             <table className='w-full'>
                 <thead className='text-left bg-sky-200 border-2 border-sky-200'>
