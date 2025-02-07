@@ -8,6 +8,10 @@ import GuidePage from './pages/GuidePage';
 import LecturerPage from './pages/LecturerPage'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import SideBar from './components/SideBar';
+import JadwalPesananPage from './pages/JadwalPesananPage';
+import TidakBersediaPage from './pages/TidakBersediaPage';
+import {Provider} from 'react-redux'
+import store from './state/store'
 
 const router = createBrowserRouter([
     {
@@ -38,11 +42,11 @@ const router = createBrowserRouter([
             },
             {
                 path: '/aplikasi/jadwal-pesanan',
-                element: <h1>jadwal pesanan</h1>
+                element: <JadwalPesananPage/>
             },
             {
                 path: '/aplikasi/jadwal-tidak-bersedia-mengajar',
-                element: <h1>jadwal tidak bersedia mengajar</h1>
+                element: <TidakBersediaPage/>
             }
         ]
     },
@@ -60,6 +64,8 @@ const router = createBrowserRouter([
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <RouterProvider router={router}/>
+    <Provider store={store}>
+        <RouterProvider router={router}/>
+    </Provider>
   </React.StrictMode>
 );

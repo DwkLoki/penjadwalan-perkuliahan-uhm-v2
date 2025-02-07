@@ -1,24 +1,18 @@
 import * as XLSX from 'xlsx'
 import { useState, useEffect } from 'react';
-import { AiOutlineUpload, AiOutlineEdit, AiOutlineDelete, AiOutlinePlus } from "react-icons/ai";
+import { AiOutlineUpload, AiOutlineEdit, AiOutlineDelete, AiOutlinePlus, AiOutlineArrowRight } from "react-icons/ai";
 import ModalBtn from '../components/ModalBtn';
+import { useSelector } from 'react-redux'
 
 export default function LecturerPage() {
     // inisialisasi state pengampu dengan nilai dari localStorage
-    const [pengampu, setPengampu] = useState(() => {
-        const savedPengampu = localStorage.getItem('pengampu');
-        return savedPengampu ? JSON.parse(savedPengampu) : [];
-    });
-
-    // const [pengampu, setPengampu] = useState([])
-
-    // // Fungsi untuk memuat data dari localStorage saat komponen pertama kali dimuat
-    // useEffect(() => {
+    // const [pengampu, setPengampu] = useState(() => {
     //     const savedPengampu = localStorage.getItem('pengampu');
-    //     if (savedPengampu) {
-    //         setPengampu(JSON.parse(savedPengampu));
-    //     }
-    // }, []);
+    //     return savedPengampu ? JSON.parse(savedPengampu) : [];
+    // });
+
+    const pengampuFromRedux = useSelector((state) => state.pengampu)
+    console.log("ini data dari global state: ", pengampuFromRedux);
 
     // update localStorage tiap kali pengampu berubah
     useEffect(() => {
@@ -214,6 +208,10 @@ export default function LecturerPage() {
         );
     }
 
+    const handlePindahKePesanan = (pengampuYangPindahKePesanan) => {
+        // localStorage.setItem('pengampuPesanan', JSON.stringify(pengampuYangPindahKePesanan));
+    }
+
     const dataTablePengampu = pengampu.map((objectPengampu, index) => {
         return (
             <tr key={index}>
@@ -234,6 +232,12 @@ export default function LecturerPage() {
                             handleDeleteDataTable={handleDeleteBtnClick}
                             data={objectPengampu}
                         />
+                        <button 
+                            className='py-[6px] px-[12px] bg-sky-600 rounded'
+                            onClick={() => handlePindahKePesanan(objectPengampu)}
+                        >
+                            <AiOutlineArrowRight />
+                        </button>
                     </div>
                 </td>
             </tr>
