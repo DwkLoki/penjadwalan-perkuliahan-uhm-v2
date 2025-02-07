@@ -1,17 +1,23 @@
 import * as XLSX from 'xlsx'
 import { useState, useEffect } from 'react';
-import { AiOutlineUpload } from "react-icons/ai";
+import { AiOutlineUpload, AiOutlineEdit, AiOutlineDelete, AiOutlinePlus, AiOutlineArrowRight } from "react-icons/ai";
+import ModalBtn from '../components/ModalBtn';
+import { useSelector } from 'react-redux'
 
 export default function LecturerPage() {
-    const [pengampu, setPengampu] = useState([])
+    // inisialisasi state pengampu dengan nilai dari localStorage
+    // const [pengampu, setPengampu] = useState(() => {
+    //     const savedPengampu = localStorage.getItem('pengampu');
+    //     return savedPengampu ? JSON.parse(savedPengampu) : [];
+    // });
 
-    // Fungsi untuk memuat data dari localStorage saat komponen pertama kali dimuat
+    const pengampuFromRedux = useSelector((state) => state.pengampu)
+    console.log("ini data dari global state: ", pengampuFromRedux);
+
+    // update localStorage tiap kali pengampu berubah
     useEffect(() => {
-        const savedPengampu = localStorage.getItem('pengampu');
-        if (savedPengampu) {
-            setPengampu(JSON.parse(savedPengampu));
-        }
-    }, []);
+        localStorage.setItem('pengampu', JSON.stringify(pengampu));
+    }, [pengampu]);
 
     function levenshteinDistance(a, b) {
         if (a.length === 0) return b.length;
@@ -162,7 +168,49 @@ export default function LecturerPage() {
         }
     }
 
-    console.log(pengampu)
+    const handleTambahPengampu = (dataBaru) => {
+        setPengampu(prevPengampu => {
+            // Cari nilai pengampuId terbesar dari data yang ada
+            const maxId = Math.max(...prevPengampu.map(item => item.pengampuId), 0);
+
+            // Buat objek baru dengan pengampuId = maxId + 1
+            const pengampuBaru = {
+                ...dataBaru,
+                pengampuId: maxId + 1
+            }
+
+            // Tambahkan ke array pengampu
+            return [...prevPengampu, pengampuBaru];
+        });
+    }
+
+    const handleEditBtnClick = (pengampuTerEdit) => {
+        setPengampu(prevPengampu => {
+            // membuat array baru yang tidak mengandung item yang telah diedit
+            // const pengampuTerfilter = prevPengampu.filter(item => {
+            //     return item.pengampuId !== pengampuTerEdit.pengampuId
+            // })
+            
+            // return [
+            //     ...pengampuTerfilter,
+            //     pengampuTerEdit  
+            // ]
+
+            return prevPengampu.map(item => {
+                return item.pengampuId === pengampuTerEdit.pengampuId ? pengampuTerEdit : item
+            })
+        })
+    }
+
+    const handleDeleteBtnClick = (pengampuYangAkanDihapus) => {
+        setPengampu((prevPengampu) =>
+            prevPengampu.filter((pengampu) => pengampu.pengampuId !== pengampuYangAkanDihapus.pengampuId)
+        );
+    }
+
+    const handlePindahKePesanan = (pengampuYangPindahKePesanan) => {
+        // localStorage.setItem('pengampuPesanan', JSON.stringify(pengampuYangPindahKePesanan));
+    }
 
     const dataTablePengampu = pengampu.map((objectPengampu, index) => {
         return (
@@ -171,47 +219,58 @@ export default function LecturerPage() {
                 <td className='p-4'>{objectPengampu.lecturerName}</td>
                 <td className='p-4'>{objectPengampu.className}</td>
                 <td className='p-4'>
-                    <div className='flex'>
-                        <button>edit</button>
-                        <button>hapus</button>
+                    <div className='flex justify-center space-x-2'>
+                        <ModalBtn 
+                            icon={<AiOutlineEdit />}
+                            color='warning'
+                            handleSubmit={handleEditBtnClick}
+                            data={objectPengampu}
+                        />
+                        <ModalBtn
+                            icon={<AiOutlineDelete />}
+                            color='danger'
+                            handleDeleteDataTable={handleDeleteBtnClick}
+                            data={objectPengampu}
+                        />
+                        <button 
+                            className='py-[6px] px-[12px] bg-sky-600 rounded'
+                            onClick={() => handlePindahKePesanan(objectPengampu)}
+                        >
+                            <AiOutlineArrowRight />
+                        </button>
                     </div>
                 </td>
             </tr>
         )
     })
 
+    console.log(pengampu)
+
     return (
         <div className='py-6'>
-            {/* <input 
-                type="file" 
-                accept='.xlsx, .xls'
-                onChange={handleImportFile}
-            /> */}
-            {/* <div className="flex w-1/3 items-center">
-                <label htmlFor="fileUpload">
-                    <AiOutlineUpload />
-                </label>
-                <input 
-                    type="file"
-                    id='fileUpload' 
-                    className="file:mr-6 file:bg-transparent file:border-0" 
-                />
-            </div> */}
-            <div className="flex items-center my-4">
-                <input
-                    type="file"
-                    id="fileUpload"
-                    className="hidden"
-                    accept='.xlsx, .xls'
-                    onChange={handleImportFile}
-                />
-                <label
-                    htmlFor="fileUpload"
-                    className="flex items-center px-4 py-2 bg-sky-600 text-white rounded cursor-pointer hover:bg-sky-700"
-                >
-                    <AiOutlineUpload className="mr-2 text-xl" />
-                    Choose File
-                </label>
+            <div className='flex justify-between py-4'>
+                <div className="flex items-center">
+                    <input
+                        type="file"
+                        id="fileUpload"
+                        className="hidden"
+                        accept='.xlsx, .xls'
+                        onChange={handleImportFile}
+                    />
+                    <label
+                        htmlFor="fileUpload"
+                        className="flex items-center px-4 py-2 bg-sky-600 border-2 border-sky-600 text-white rounded cursor-pointer hover:bg-sky-700 hover:border-sky-700"
+                    >
+                        <AiOutlineUpload className="mr-2 text-xl" />
+                        Choose File
+                    </label>
+                </div>
+                <div>
+                    <ModalBtn
+                        icon={<AiOutlinePlus />}
+                        handleTambahPengampu={handleTambahPengampu}
+                    />
+                </div>
             </div>
             <table className='w-full'>
                 <thead className='text-left bg-sky-200 border-2 border-sky-200'>
@@ -225,10 +284,10 @@ export default function LecturerPage() {
                 <tbody className='divide-y-2 text-left'>
                     {
                         pengampu.length > 0 ?
-                        dataTablePengampu :
-                        <tr>
-                            <td className='p-4 text-center border-2' colSpan={4}>Belum ada data yang dimasukkan</td>
-                        </tr> 
+                            dataTablePengampu :
+                            <tr>
+                                <td className='p-4 text-center border-2' colSpan={4}>Belum ada data yang dimasukkan</td>
+                            </tr>
                     }
                 </tbody>
             </table>
