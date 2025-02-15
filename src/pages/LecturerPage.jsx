@@ -1,8 +1,10 @@
 import * as XLSX from 'xlsx'
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { AiOutlineUpload, AiOutlineEdit, AiOutlineDelete, AiOutlinePlus, AiOutlineArrowRight } from "react-icons/ai";
 import ModalBtn from '../components/ModalBtn';
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
+import { setPengampu, deletePengampu } from '../state/slices/pengampuSlice';
+import { addPesanan, resetPesanan } from '../state/slices/pesananSlice';
 
 export default function LecturerPage() {
     // inisialisasi state pengampu dengan nilai dari localStorage
@@ -10,11 +12,11 @@ export default function LecturerPage() {
     //     const savedPengampu = localStorage.getItem('pengampu');
     //     return savedPengampu ? JSON.parse(savedPengampu) : [];
     // });
+    const dispatch = useDispatch()
+    const pengampu = useSelector((state) => state.pengampu)
+    console.log("ini data dari global state: ", pengampu);
 
-    const pengampuFromRedux = useSelector((state) => state.pengampu)
-    console.log("ini data dari global state: ", pengampuFromRedux);
-
-    // update localStorage tiap kali pengampu berubah
+    // update localStorage tiap kali global state pengampu berubah
     useEffect(() => {
         localStorage.setItem('pengampu', JSON.stringify(pengampu));
     }, [pengampu]);
@@ -144,8 +146,13 @@ export default function LecturerPage() {
                 });
 
                 // Perbarui state pengampu dan simpan ke localStorage
-                setPengampu(rowObject);
+                // setPengampu(rowObject);
+
+                // Setelah memproses rowObject, dispatch ke Redux
+                dispatch(setPengampu(rowObject));
+                dispatch(resetPesanan())
                 localStorage.setItem('pengampu', JSON.stringify(rowObject));
+                localStorage.setItem('pesanan', JSON.stringify([]))
 
                 // menampilkan semua data pada array pengampu dalam bentuk baris tabel
                 // const tabelDaftarPengampu = document.querySelector("tbody.daftar-pengampu");
@@ -168,48 +175,39 @@ export default function LecturerPage() {
         }
     }
 
-    const handleTambahPengampu = (dataBaru) => {
-        setPengampu(prevPengampu => {
-            // Cari nilai pengampuId terbesar dari data yang ada
-            const maxId = Math.max(...prevPengampu.map(item => item.pengampuId), 0);
+    // const handleTambahPengampu = (dataBaru) => {
+    //     setPengampu(prevPengampu => {
+    //         // Cari nilai pengampuId terbesar dari data yang ada
+    //         const maxId = Math.max(...prevPengampu.map(item => item.pengampuId), 0);
 
-            // Buat objek baru dengan pengampuId = maxId + 1
-            const pengampuBaru = {
-                ...dataBaru,
-                pengampuId: maxId + 1
-            }
+    //         // Buat objek baru dengan pengampuId = maxId + 1
+    //         const pengampuBaru = {
+    //             ...dataBaru,
+    //             pengampuId: maxId + 1
+    //         }
 
-            // Tambahkan ke array pengampu
-            return [...prevPengampu, pengampuBaru];
-        });
-    }
+    //         // Tambahkan ke array pengampu
+    //         return [...prevPengampu, pengampuBaru];
+    //     });
+    // }
 
-    const handleEditBtnClick = (pengampuTerEdit) => {
-        setPengampu(prevPengampu => {
-            // membuat array baru yang tidak mengandung item yang telah diedit
-            // const pengampuTerfilter = prevPengampu.filter(item => {
-            //     return item.pengampuId !== pengampuTerEdit.pengampuId
-            // })
-            
-            // return [
-            //     ...pengampuTerfilter,
-            //     pengampuTerEdit  
-            // ]
+    // const handleEditBtnClick = (pengampuTerEdit) => {
+    //     setPengampu(prevPengampu => {
+    //         return prevPengampu.map(item => {
+    //             return item.pengampuId === pengampuTerEdit.pengampuId ? pengampuTerEdit : item
+    //         })
+    //     })
+    // }
 
-            return prevPengampu.map(item => {
-                return item.pengampuId === pengampuTerEdit.pengampuId ? pengampuTerEdit : item
-            })
-        })
-    }
+    // const handleDeleteBtnClick = (pengampuYangAkanDihapus) => {
+    //     setPengampu((prevPengampu) =>
+    //         prevPengampu.filter((pengampu) => pengampu.pengampuId !== pengampuYangAkanDihapus.pengampuId)
+    //     );
+    // }
 
-    const handleDeleteBtnClick = (pengampuYangAkanDihapus) => {
-        setPengampu((prevPengampu) =>
-            prevPengampu.filter((pengampu) => pengampu.pengampuId !== pengampuYangAkanDihapus.pengampuId)
-        );
-    }
-
-    const handlePindahKePesanan = (pengampuYangPindahKePesanan) => {
-        // localStorage.setItem('pengampuPesanan', JSON.stringify(pengampuYangPindahKePesanan));
+    const handlePindahKePesanan = (pengampuYangPindah) => {
+        dispatch(addPesanan(pengampuYangPindah));  // tambahkan ke pesanan
+        dispatch(deletePengampu(pengampuYangPindah));  // hapus dari pengampu
     }
 
     const dataTablePengampu = pengampu.map((objectPengampu, index) => {
@@ -219,17 +217,17 @@ export default function LecturerPage() {
                 <td className='p-4'>{objectPengampu.lecturerName}</td>
                 <td className='p-4'>{objectPengampu.className}</td>
                 <td className='p-4'>
-                    <div className='flex justify-center space-x-2'>
+                    <div className='flex space-x-2'>
                         <ModalBtn 
                             icon={<AiOutlineEdit />}
                             color='warning'
-                            handleSubmit={handleEditBtnClick}
+                            // handleSubmit={handleEditBtnClick}
                             data={objectPengampu}
                         />
                         <ModalBtn
                             icon={<AiOutlineDelete />}
                             color='danger'
-                            handleDeleteDataTable={handleDeleteBtnClick}
+                            // handleDeleteDataTable={handleDeleteBtnClick}
                             data={objectPengampu}
                         />
                         <button 
@@ -244,7 +242,7 @@ export default function LecturerPage() {
         )
     })
 
-    console.log(pengampu)
+    // console.log(pengampu)
 
     return (
         <div className='py-6'>
@@ -268,7 +266,7 @@ export default function LecturerPage() {
                 <div>
                     <ModalBtn
                         icon={<AiOutlinePlus />}
-                        handleTambahPengampu={handleTambahPengampu}
+                        // handleTambahPengampu={handleTambahPengampu}
                     />
                 </div>
             </div>

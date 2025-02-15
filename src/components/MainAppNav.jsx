@@ -14,7 +14,7 @@ export default function MainAppNav() {
                     // }
                     className={`px-3 pb-[18px] ${isActive ? 'text-black border-black border-b-2' : 'text-zinc-600'}`}
                 >
-                    Pengampu
+                    Data Pengampu
                 </NavLink>
             </div>
             <div>
@@ -24,7 +24,7 @@ export default function MainAppNav() {
                         `px-3 pb-[18px] ${isActive ? 'text-black border-black border-b-2' : 'text-zinc-600'}`
                     }
                 >
-                    Daftar Jadwal Pesanan Pengampu
+                    Data Tambahan
                 </NavLink>
             </div>
             <div>
@@ -34,7 +34,7 @@ export default function MainAppNav() {
                         `px-3 pb-[18px] ${isActive ? 'text-black border-black border-b-2' : 'text-zinc-600'}`
                     }
                 >
-                    Daftar Jadwal Pengampu Tidak Bersedia Mengajar
+                    Hasil Penjadwalan
                 </NavLink>
             </div>
         </div>
