@@ -9,7 +9,7 @@ import LecturerPage from './pages/LecturerPage'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import SideBar from './components/SideBar';
 import JadwalPesananPage from './pages/JadwalPesananPage';
-import TidakBersediaPage from './pages/TidakBersediaPage';
+import HasilPenjadwalanPage from './pages/HasilPenjadwalanPage';
 import {Provider} from 'react-redux'
 import store from './state/store'
 
@@ -45,8 +45,8 @@ const router = createBrowserRouter([
                 element: <JadwalPesananPage/>
             },
             {
-                path: '/aplikasi/jadwal-tidak-bersedia-mengajar',
-                element: <TidakBersediaPage/>
+                path: '/aplikasi/hasil-penjadwalan',
+                element: <HasilPenjadwalanPage/>
             }
         ]
     },

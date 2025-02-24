@@ -4,7 +4,7 @@ import { GoBook } from "react-icons/go";
 
 export default function SideBar() {
     return (
-        <div className="h-screen w-[65px] border-e-2 sticky top-0">
+        <div className="h-screen w-[5%] border-e-2 sticky top-0">
             <nav className="flex flex-col items-center space-y-5 my-6">
                 <div className="w-1/2">
                     <NavLink

@@ -102,7 +102,7 @@ export default function JadwalPesananPage() {
                     </tbody>
                 </table>
             </div>
-            <div>
+            <div className="mt-16">
                 <div className='flex justify-between py-4'>
                     <div className="flex items-center">
                         <h1 className="text-2xl font-bold text-zinc-600">Daftar Jadwal Tidak Bersedia Mengajar Dosen</h1>

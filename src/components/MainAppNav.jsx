@@ -12,7 +12,7 @@ export default function MainAppNav() {
                     // className={({isActive}) => 
                     //     `px-3 pb-[18px] ${isActive ? 'text-black border-black border-b-2' : 'text-zinc-600'}`
                     // }
-                    className={`px-3 pb-[18px] ${isActive ? 'text-black border-black border-b-2' : 'text-zinc-600'}`}
+                    className={`px-3 pb-[25px] ${isActive ? 'text-black border-black border-b-2' : 'text-zinc-600'}`}
                 >
                     Data Pengampu
                 </NavLink>
@@ -21,7 +21,7 @@ export default function MainAppNav() {
                 <NavLink 
                     to='/aplikasi/jadwal-pesanan'
                     className={({ isActive }) =>
-                        `px-3 pb-[18px] ${isActive ? 'text-black border-black border-b-2' : 'text-zinc-600'}`
+                        `px-3 pb-[25px] ${isActive ? 'text-black border-black border-b-2' : 'text-zinc-600'}`
                     }
                 >
                     Data Tambahan
@@ -29,9 +29,9 @@ export default function MainAppNav() {
             </div>
             <div>
                 <NavLink 
-                    to='/aplikasi/jadwal-tidak-bersedia-mengajar'
+                    to='/aplikasi/hasil-penjadwalan'
                     className={({ isActive }) =>
-                        `px-3 pb-[18px] ${isActive ? 'text-black border-black border-b-2' : 'text-zinc-600'}`
+                        `px-3 pb-[25px] ${isActive ? 'text-black border-black border-b-2' : 'text-zinc-600'}`
                     }
                 >
                     Hasil Penjadwalan

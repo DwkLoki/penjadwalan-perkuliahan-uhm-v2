@@ -17,9 +17,9 @@ export default function ModalBtnPesanan(props) {
         kategoriKelas: 'Reguler',
         lecturerName: '',
         semester: 'I',
-        hari: '',
-        waktu: '',
-        ruangan: ''
+        hari: '1',
+        waktu: '1',
+        ruangan: '1'
     })
 
     const toggle = () => setModal(!modal);

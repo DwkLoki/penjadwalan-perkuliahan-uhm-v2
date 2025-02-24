@@ -175,36 +175,6 @@ export default function LecturerPage() {
         }
     }
 
-    // const handleTambahPengampu = (dataBaru) => {
-    //     setPengampu(prevPengampu => {
-    //         // Cari nilai pengampuId terbesar dari data yang ada
-    //         const maxId = Math.max(...prevPengampu.map(item => item.pengampuId), 0);
-
-    //         // Buat objek baru dengan pengampuId = maxId + 1
-    //         const pengampuBaru = {
-    //             ...dataBaru,
-    //             pengampuId: maxId + 1
-    //         }
-
-    //         // Tambahkan ke array pengampu
-    //         return [...prevPengampu, pengampuBaru];
-    //     });
-    // }
-
-    // const handleEditBtnClick = (pengampuTerEdit) => {
-    //     setPengampu(prevPengampu => {
-    //         return prevPengampu.map(item => {
-    //             return item.pengampuId === pengampuTerEdit.pengampuId ? pengampuTerEdit : item
-    //         })
-    //     })
-    // }
-
-    // const handleDeleteBtnClick = (pengampuYangAkanDihapus) => {
-    //     setPengampu((prevPengampu) =>
-    //         prevPengampu.filter((pengampu) => pengampu.pengampuId !== pengampuYangAkanDihapus.pengampuId)
-    //     );
-    // }
-
     const handlePindahKePesanan = (pengampuYangPindah) => {
         dispatch(addPesanan(pengampuYangPindah));  // tambahkan ke pesanan
         dispatch(deletePengampu(pengampuYangPindah));  // hapus dari pengampu
