@@ -10,7 +10,7 @@ export default function GuidePage() {
                     <img src="./images/panduan1.png" alt="Halaman Data Pengampu" />
                     <p className="text-justify">
                         Di atas merupakan tampilan halaman data pengampu. Tombol 'choose file' untuk import data pengampu.
-                        Unduh contoh file excel data pengampu pada link berikut <a href="" className="underline decoration-2 decoration-sky-500 text-sky-500">data pengampu</a>. 
+                        Unduh contoh file excel data pengampu 👉 <a href="./data-pengampu.xlsx" className="underline decoration-2 decoration-sky-500 text-sky-500" download>klik untuk unduh data pengampu</a>. 
                         Anda hanya perlu menyesuaikan isi file tersebut. Jangan ubah struktur tabel datanya!
                     </p> <br/>
                     <p className="text-justify">

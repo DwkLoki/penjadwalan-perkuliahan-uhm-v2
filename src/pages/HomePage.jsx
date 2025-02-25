@@ -21,12 +21,13 @@ function App() {
                 <section className="mt-4">
                     <h2 className="text-xl font-bold text-zinc-600 mb-1">Fitur</h2>
                     <ul>
-                        <li className='relative text-justify pl-6 mb-1 before:absolute before:content-["‣"] before:left-0 before:-top-2 before:text-3xl before:text-sky-600'>Penjadwalan mata kuliah sesuai kondisi dan kebijakan kampus</li>
+                        <li className='relative text-justify pl-6 mb-1 before:absolute before:content-["‣"] before:left-0 before:-top-2 before:text-3xl before:text-sky-600'>Menghasilkan jadwal mata kuliah yang sesuai kondisi dan kebijakan kampus</li>
                         <li className='relative text-justify pl-6 mb-1 before:absolute before:content-["‣"] before:left-0 before:-top-2 before:text-3xl before:text-sky-600'>Pesan jadwal: mengakomodir preferensi jadwal mengajar serta jadwal tidak bersedia mengajar dosen</li>
-                        <li className='relative text-justify pl-6 mb-1 before:absolute before:content-["‣"] before:left-0 before:-top-2 before:text-3xl before:text-sky-600'>Sinkronisasi kapasitas ruangan dengan jumlah mahasiswa</li>
+                        {/* fitur yang akan datang */}
+                        {/* <li className='relative text-justify pl-6 mb-1 before:absolute before:content-["‣"] before:left-0 before:-top-2 before:text-3xl before:text-sky-600'>Sinkronisasi kapasitas ruangan dengan jumlah mahasiswa</li>
                         <li className='relative text-justify pl-6 mb-1 before:absolute before:content-["‣"] before:left-0 before:-top-2 before:text-3xl before:text-sky-600'>Prioritas ruangan lantai bawah bagi dosen yang berumur tua</li>
                         <li className='relative text-justify pl-6 mb-1 before:absolute before:content-["‣"] before:left-0 before:-top-2 before:text-3xl before:text-sky-600'>Sebaran jadwal perkuliahan tiap dosen</li>
-                        <li className='relative text-justify pl-6 mb-1 before:absolute before:content-["‣"] before:left-0 before:-top-2 before:text-3xl before:text-sky-600'>Fitur riwayat atau penyimpanan hasil penjadwalan yang sudah diproses</li>
+                        <li className='relative text-justify pl-6 mb-1 before:absolute before:content-["‣"] before:left-0 before:-top-2 before:text-3xl before:text-sky-600'>Fitur riwayat atau penyimpanan hasil penjadwalan yang sudah diproses</li> */}
                     </ul>
                 </section>
                 <section className="mt-4">
